@@ -26,7 +26,10 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login({ history }) {
   const classes = useStyles();
-  console.log(history);
+  const [account, setAccount] = React.useState({
+    username: "",
+    password: "",
+  });
   return (
     <Card className={classes.root}>
       <CardMedia
@@ -44,6 +47,10 @@ export default function Login({ history }) {
             margin="normal"
             required
             fullWidth
+            value={account.username}
+            onChange={(e) => {
+              setAccount({ ...account, username: e.target.value });
+            }}
             id="username"
             label="Username"
             autoComplete="email"
@@ -59,7 +66,12 @@ export default function Login({ history }) {
             type="password"
             id="password"
             autoComplete="current-password"
+            value={account.password}
+            onChange={(e) => {
+              setAccount({ ...account, password: e.target.value });
+            }}
           />
+          #spy {JSON.stringify(account)}
         </form>
       </CardContent>
 
