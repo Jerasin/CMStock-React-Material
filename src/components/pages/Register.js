@@ -25,16 +25,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Register({ history }) {
+export default function Register({ history }, props) {
   const classes = useStyles();
-  function showForm() {
+  function showForm({
+    values,
+    handleChange,
+    handleSubmit,
+    setFieldValue,
+    isSunmitting,
+  }) {
     return (
-      <form className={classes.form} noValidate>
+      <form className={classes.form} onSubmit={handleSubmit}>
         <TextField
           variant="outlined"
           margin="normal"
           required
           fullWidth
+          value={values.username}
+          onChange={handleChange}
           id="username"
           label="Username"
           autoComplete="email"
@@ -45,33 +53,15 @@ export default function Register({ history }) {
           margin="normal"
           required
           fullWidth
+          value={values.password}
+          onChange={handleChange}
           name="password"
           label="Password"
           type="password"
           id="password"
           autoComplete="current-password"
         />
-      </form>
-    );
-  }
-  return (
-    <Card className={classes.root}>
-      <CardMedia
-        className={classes.media}
-        image={`${process.env.PUBLIC_URL}/images/authen_header.jpg`}
-        title="Contemplative Reptile"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
-          Register
-        </Typography>
 
-        <Formik initialValues={{ username: "admin", password: "1234" }}>
-          {(props) => showForm(props)}
-        </Formik>
-      </CardContent>
-
-      <div>
         <Button
           type="submit"
           fullWidth
@@ -89,7 +79,30 @@ export default function Register({ history }) {
         >
           Cancel
         </Button>
-      </div>
+      </form>
+    );
+  }
+  return (
+    <Card className={classes.root}>
+      <CardMedia
+        className={classes.media}
+        image={`${process.env.PUBLIC_URL}/images/authen_header.jpg`}
+        title="Contemplative Reptile"
+      />
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="h2">
+          Register
+        </Typography>
+
+        <Formik
+          initialValues={{ username: "lek", password: "1234" }}
+          onSubmit={(values, { setSubmitting }) =>
+            alert(JSON.stringify(values))
+          }
+        >
+          {(props) => showForm(props)}
+        </Formik>
+      </CardContent>
     </Card>
   );
 }
