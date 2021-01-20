@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
-  const history = useHistory();
+  const loginReducer = React.useSelector(({ loginReducer }) => loginReducer);
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -55,11 +55,11 @@ function App() {
 
   return (
     <Router>
-      {false && (
+      {loginReducer && (
         <Header handleDrawerOpen={handleDrawerOpen} open={openDrawer} />
       )}
 
-      {false && (
+      {loginReducer && (
         <Menu
           handleDrawerOpen={openDrawer}
           handleDrawerClose={handleDrawerClose}
