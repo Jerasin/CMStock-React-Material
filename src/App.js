@@ -4,6 +4,7 @@ import Header from "./components/fragments/Header";
 import Menu from "./components/fragments/Menu";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
+import Stock from "./components/pages/Stock";
 import {
   makeStyles,
   createMuiTheme,
@@ -17,6 +18,8 @@ import {
   Switch,
   useHistory,
 } from "react-router-dom";
+import StockCreate from "./components/pages/StockCreate";
+import StockEdit from "./components/pages/StockEdit";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -52,16 +55,24 @@ function App() {
 
   return (
     <Router>
-      <Header handleDrawerOpen={handleDrawerOpen} open={openDrawer} />
-      <Menu
-        handleDrawerOpen={openDrawer}
-        handleDrawerClose={handleDrawerClose}
-      />
+      {false && (
+        <Header handleDrawerOpen={handleDrawerOpen} open={openDrawer} />
+      )}
+
+      {false && (
+        <Menu
+          handleDrawerOpen={openDrawer}
+          handleDrawerClose={handleDrawerClose}
+        />
+      )}
 
       <Container className={classes.content}>
         <Switch>
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/stock" component={Stock} />
+          <Route path="/stockCreate" component={StockCreate} />
+          <Route path="/stockEdit/:id" component={StockEdit} />
           <Route
             exact={true}
             path="/"

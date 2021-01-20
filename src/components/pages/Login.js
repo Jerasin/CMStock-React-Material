@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login({ history }) {
+export default function Login({ history }, props) {
   const classes = useStyles();
   const [account, setAccount] = React.useState({
     username: "",
@@ -41,7 +41,14 @@ export default function Login({ history }) {
         <Typography gutterBottom variant="h5" component="h2">
           Login
         </Typography>
-        <form className={classes.form} noValidate>
+        <form
+          className={classes.form}
+          noValidate
+          onSubmit={(e) => {
+            e.preventDefault();
+            history.push("/stock");
+          }}
+        >
           <TextField
             variant="outlined"
             margin="normal"
@@ -71,29 +78,26 @@ export default function Login({ history }) {
               setAccount({ ...account, password: e.target.value });
             }}
           />
-          #spy {JSON.stringify(account)}
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            className={classes.submit}
+          >
+            Sign In
+          </Button>
+          <Button
+            onClick={() => history.push("/register")}
+            fullWidth
+            size="small"
+            color="primary"
+          >
+            Register
+          </Button>
+          {/* #spy {JSON.stringify(account)} */}
         </form>
       </CardContent>
-
-      <div>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-        >
-          Sign In
-        </Button>
-        <Button
-          onClick={() => history.push("/register")}
-          fullWidth
-          size="small"
-          color="primary"
-        >
-          Register
-        </Button>
-      </div>
     </Card>
   );
 }

@@ -32,7 +32,7 @@ export default function Register({ history }, props) {
     handleChange,
     handleSubmit,
     setFieldValue,
-    isSunmitting,
+    isSubmitting,
   }) {
     return (
       <form className={classes.form} onSubmit={handleSubmit}>
@@ -68,6 +68,7 @@ export default function Register({ history }, props) {
           variant="contained"
           color="primary"
           className={classes.submit}
+          disabled={isSubmitting}
         >
           Register
         </Button>
@@ -96,9 +97,13 @@ export default function Register({ history }, props) {
 
         <Formik
           initialValues={{ username: "lek", password: "1234" }}
-          onSubmit={(values, { setSubmitting }) =>
-            alert(JSON.stringify(values))
-          }
+          onSubmit={(values, { setSubmitting }) => {
+            // alert(JSON.stringify(values)) Debugmode
+            setSubmitting(true);
+            setTimeout(() => {
+              setSubmitting(false);
+            }, 1000);
+          }}
         >
           {(props) => showForm(props)}
         </Formik>
