@@ -12,7 +12,7 @@ import {
   Link,
   Grid,
 } from "@material-ui/core";
-
+import Axios from "axios";
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -24,6 +24,14 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
+
+// const onClick = () => {
+//   Axios.post("http://localhost:8085/api/v2/authen/register", values).then(
+//     (response) => {
+//       alert(JSON.stringify(response.data));
+//     }
+//   );
+// };
 
 export default function Register({ history }, props) {
   const classes = useStyles();
@@ -62,6 +70,7 @@ export default function Register({ history }, props) {
           autoComplete="current-password"
         />
 
+        {/* Register Button */}
         <Button
           type="submit"
           fullWidth
@@ -69,6 +78,7 @@ export default function Register({ history }, props) {
           color="primary"
           className={classes.submit}
           disabled={isSubmitting}
+          // onClick={onClick}
         >
           Register
         </Button>
@@ -96,7 +106,7 @@ export default function Register({ history }, props) {
         </Typography>
 
         <Formik
-          initialValues={{ username: "lek", password: "1234" }}
+          initialValues={{ username: "", password: "" }}
           onSubmit={(values, { setSubmitting }) => {
             // alert(JSON.stringify(values)) Debugmode
             setSubmitting(true);

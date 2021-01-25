@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import reducers from "./reducers";
 import logger from "redux-logger";
 
-const middlewares = (middlewares = applyMiddleware(thunk, logger));
+var middlewares = (middlewares = applyMiddleware(thunk, logger));
 
 const store = createStore(reducers, middlewares);
 

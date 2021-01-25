@@ -36,3 +36,7 @@ yarn add axios chart.js react-chartjs-2 react-moment react-number-format react-r
 
 # NodeJS Backend Dependency
 yarn add express body-parser fs-extra formidable cors bcryptjs rand-token jsonwebtoken mongoose mongoose-sequence onesignal-node
+
+
+# NodeJS Backend Dependency
+npm i -g nodemon 

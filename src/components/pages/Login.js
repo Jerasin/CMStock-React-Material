@@ -11,6 +11,8 @@ import {
   Link,
   Grid,
 } from "@material-ui/core";
+import * as loginAction from "./../../actions/login.action";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,12 +26,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login({ history }, props) {
+export default function Login(props) {
   const classes = useStyles();
   const [account, setAccount] = React.useState({
     username: "",
     password: "",
   });
+  const dispatch = useDispatch();
+
   return (
     <Card className={classes.root}>
       <CardMedia
@@ -46,7 +50,8 @@ export default function Login({ history }, props) {
           noValidate
           onSubmit={(e) => {
             e.preventDefault();
-            history.push("/stock");
+            dispatch(loginAction.login({ ...account, ...props }));
+            // history.push("/stock");
           }}
         >
           <TextField
@@ -88,7 +93,7 @@ export default function Login({ history }, props) {
             Sign In
           </Button>
           <Button
-            onClick={() => history.push("/register")}
+            onClick={() => props.history.push("/register")}
             fullWidth
             size="small"
             color="primary"

@@ -5,6 +5,7 @@ import Menu from "./components/fragments/Menu";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
 import Stock from "./components/pages/Stock";
+import { useSelector } from "react-redux";
 import {
   makeStyles,
   createMuiTheme,
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 function App() {
   const classes = useStyles();
-  const loginReducer = React.useSelector(({ loginReducer }) => loginReducer);
+  const loginReducer = useSelector(({ loginReducer }) => loginReducer);
   const [openDrawer, setOpenDrawer] = React.useState(false);
 
   const handleDrawerOpen = () => {
@@ -55,11 +56,11 @@ function App() {
 
   return (
     <Router>
-      {loginReducer && (
+      {loginReducer.result && (
         <Header handleDrawerOpen={handleDrawerOpen} open={openDrawer} />
       )}
 
-      {loginReducer && (
+      {loginReducer.result && (
         <Menu
           handleDrawerOpen={openDrawer}
           handleDrawerClose={handleDrawerClose}

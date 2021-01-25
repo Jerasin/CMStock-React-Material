@@ -7,6 +7,9 @@ import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import clsx from "clsx";
+import * as loginActions from "./../../actions/login.action";
+import { useDispatch } from "react-redux";
+import { withRouter } from "react-router-dom";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -35,8 +38,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Header({ handleDrawerOpen, open }) {
+const Header = (props) => {
   const classes = useStyles();
+
+  const dispatch = useDispatch();
 
   return (
     <div className={classes.root}>
@@ -44,7 +49,7 @@ export default function Header({ handleDrawerOpen, open }) {
         position="static"
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
+          [classes.appBarShift]: props.open,
         })}
       >
         <Toolbar>
@@ -53,18 +58,25 @@ export default function Header({ handleDrawerOpen, open }) {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
-            onClick={handleDrawerOpen}
+            onClick={props.handleDrawerOpen}
           >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             News
           </Typography>
-          <Button variant="outlined" color="inherit">
-            Login
+          <Button
+            variant="outlined"
+            color="inherit"
+            onClick={() => {
+              dispatch(loginActions.logout({ ...props }));
+            }}
+          >
+            Logout
           </Button>
         </Toolbar>
       </AppBar>
     </div>
   );
-}
+};
+export default withRouter(Header);
