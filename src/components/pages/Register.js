@@ -13,6 +13,8 @@ import {
   Grid,
 } from "@material-ui/core";
 import Axios from "axios";
+import { apiUrl, server } from "./../../Constatns";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -24,14 +26,6 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
 }));
-
-// const onClick = () => {
-//   Axios.post("http://localhost:8085/api/v2/authen/register", values).then(
-//     (response) => {
-//       alert(JSON.stringify(response.data));
-//     }
-//   );
-// };
 
 export default function Register({ history }, props) {
   const classes = useStyles();
@@ -110,9 +104,14 @@ export default function Register({ history }, props) {
           onSubmit={(values, { setSubmitting }) => {
             // alert(JSON.stringify(values)) Debugmode
             setSubmitting(true);
-            setTimeout(() => {
-              setSubmitting(false);
-            }, 1000);
+            Axios.post("http://localhost:8085/api/v2/authen/register", values)
+              .then((result) => {
+                setSubmitting(false);
+                alert(JSON.stringify(result.data));
+              })
+              .catch((error) => {
+                alert(JSON.stringify(error));
+              });
           }}
         >
           {(props) => showForm(props)}
