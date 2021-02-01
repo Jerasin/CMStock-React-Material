@@ -17,7 +17,12 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
-
+import { NavLink, Navllink } from "react-router-dom";
+import {
+  Layers as LayersIcon,
+  BarChart as BarChartIcon,
+  Person as PersonIcon,
+} from "@material-ui/icons";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -48,8 +53,11 @@ const useStyles = makeStyles((theme) => ({
     width: drawerWidth,
     flexShrink: 0,
   },
+
   drawerPaper: {
     width: drawerWidth,
+    backgroundImage:
+      "url(" + `${process.env.PUBLIC_URL}/images/background_menu.jpg` + ")",
   },
   drawerHeader: {
     display: "flex",
@@ -74,6 +82,10 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginLeft: 0,
+  },
+  isActive: {
+    backgroundColor: "#e0f5fd",
+    color: "#0080ff",
   },
 }));
 
@@ -102,26 +114,54 @@ function Menu({ handleDrawerOpen, handleDrawerClose }) {
           </IconButton>
         </div>
         <Divider />
+        <img
+          height={250}
+          src={`${process.env.PUBLIC_URL}/images/menu_banner.jpg`}
+          alt=""
+        />
+
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem button key={text}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
+          {/* Stock */}
+          <ListItem
+            component={NavLink}
+            to="/stock"
+            button
+            key="stock"
+            activeClassName={classes.isActive}
+          >
+            <ListItemIcon>
+              <LayersIcon />
+            </ListItemIcon>
+            <ListItemText primary="stock" />
+          </ListItem>
+
+          {/* Report */}
+          <ListItem
+            component={NavLink}
+            to="/report"
+            button
+            key="report"
+            activeClassName={classes.isActive}
+          >
+            <ListItemIcon>
+              <BarChartIcon />
+            </ListItemIcon>
+            <ListItemText primary="Report" />
+          </ListItem>
+
+          {/* AboutUS */}
+          <ListItem
+            component={NavLink}
+            to="/about"
+            button
+            key="about"
+            activeClassName={classes.isActive}
+          >
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText primary="About" />
+          </ListItem>
         </List>
       </Drawer>
     </div>

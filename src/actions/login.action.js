@@ -3,7 +3,10 @@ import {
   LOGIN_SUCCESS,
   LOGIN_FETCHING,
   LOGOUT,
+  server,
+  LOGIN_STATUS,
 } from "../Constatns";
+import { httpClient } from "./../utils/HttpClient";
 
 export const setStateToFetching = () => ({
   type: LOGIN_FETCHING,
@@ -24,18 +27,58 @@ export const setStateToLogout = () => ({
 });
 
 export const login = ({ username, password, history }) => {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(setStateToFetching());
-    setTimeout(() => {
-      dispatch(setStateToSuccess("OK"));
+    // setTimeout(() => {
+    //   dispatch(setStateToSuccess("OK"));
+    //   history.push("/stock");
+    // }, 500);
+
+    const result = await httpClient.post(server.LOGIN_URL, {
+      username,
+      password,
+    });
+    if (result.data.result == "ok") {
+      localStorage.setItem(LOGIN_STATUS, "ok");
+      dispatch(setStateToSuccess(result.data.result));
       history.push("/stock");
-    }, 500);
+    } else {
+      localStorage.setItem(LOGIN_STATUS, "nok");
+      dispatch(setStateToFailed(result.data.message));
+    }
   };
+};
+
+export const isLoggedIn = () => {
+  const loginStatus = localStorage.getItem(LOGIN_STATUS);
+  return loginStatus == "ok";
 };
 
 export const logout = ({ history }) => {
   return (dispatch) => {
+    localStorage.removeItem(LOGIN_STATUS);
     dispatch(setStateToLogout());
     history.push("/");
+  };
+};
+
+export const setSuccess = () => {
+  return (dispatch) => {
+    dispatch(setStateToSuccess("ok"));
+  };
+};
+
+export const reLogin = () => {
+  return (dispatch) => {
+    const loginStatus = localStorage.getItem(LOGIN_STATUS);
+    if (loginStatus == "ok") {
+      dispatch(setStateToSuccess({}));
+    }
+  };
+};
+
+export const hasError = (payload) => {
+  return (dispatch) => {
+    dispatch(setStateToFailed(payload));
   };
 };

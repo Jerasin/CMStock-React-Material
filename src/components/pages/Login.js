@@ -13,6 +13,9 @@ import {
 } from "@material-ui/core";
 import * as loginAction from "./../../actions/login.action";
 import { useDispatch } from "react-redux";
+import Alert from "@material-ui/lab/Alert";
+import loginReducer from "../../reducers/login.reducer";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Login(props) {
+  const loginReducer = useSelector(({ loginReducer }) => loginReducer);
   const classes = useStyles();
   const [account, setAccount] = React.useState({
     username: "",
@@ -51,6 +55,7 @@ export default function Login(props) {
           onSubmit={(e) => {
             e.preventDefault();
             dispatch(loginAction.login({ ...account, ...props }));
+
             // history.push("/stock");
           }}
         >
@@ -83,6 +88,11 @@ export default function Login(props) {
               setAccount({ ...account, password: e.target.value });
             }}
           />
+
+          {loginReducer.error && (
+            <Alert severity="error">{loginReducer.result}</Alert>
+          )}
+
           <Button
             type="submit"
             fullWidth

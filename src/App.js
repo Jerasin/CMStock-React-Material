@@ -1,11 +1,11 @@
-import React from "react";
+import { React, useEffect, useState } from "react";
 import { Button, Container } from "@material-ui/core";
 import Header from "./components/fragments/Header";
 import Menu from "./components/fragments/Menu";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
 import Stock from "./components/pages/Stock";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   makeStyles,
   createMuiTheme,
@@ -21,6 +21,9 @@ import {
 } from "react-router-dom";
 import StockCreate from "./components/pages/StockCreate";
 import StockEdit from "./components/pages/StockEdit";
+import Report from "./components/pages/Report";
+import AboutUs from "./components/pages/AboutUs";
+import * as loginAction from "./../src/actions/login.action";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,10 +44,36 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// Protected Route
+const SecuredRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      // ternary condition
+      loginAction.isLoggedIn() ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to="/login" />
+      )
+    }
+  />
+);
+
+const LoginRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      // ternary condition
+      loginAction.isLoggedIn() ? <Redirect to="/stock" /> : <Login {...props} />
+    }
+  />
+);
+
 function App() {
   const classes = useStyles();
   const loginReducer = useSelector(({ loginReducer }) => loginReducer);
-  const [openDrawer, setOpenDrawer] = React.useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
+  const dispatch = useDispatch();
 
   const handleDrawerOpen = () => {
     setOpenDrawer(true);
@@ -54,13 +83,17 @@ function App() {
     setOpenDrawer(false);
   };
 
+  useEffect(() => {
+    dispatch(loginAction.reLogin());
+  }, []);
+
   return (
     <Router>
-      {loginReducer.result && (
+      {loginReducer.result && !loginReducer.error && (
         <Header handleDrawerOpen={handleDrawerOpen} open={openDrawer} />
       )}
 
-      {loginReducer.result && (
+      {loginReducer.result && !loginReducer.error && (
         <Menu
           handleDrawerOpen={openDrawer}
           handleDrawerClose={handleDrawerClose}
@@ -69,11 +102,13 @@ function App() {
 
       <Container className={classes.content}>
         <Switch>
-          <Route path="/login" component={Login} />
+          <LoginRoute path="/login" component={Login} />
           <Route path="/register" component={Register} />
-          <Route path="/stock" component={Stock} />
-          <Route path="/stockCreate" component={StockCreate} />
-          <Route path="/stockEdit/:id" component={StockEdit} />
+          <SecuredRoute path="/stock" component={Stock} />
+          <SecuredRoute path="/report" component={Report} />
+          <SecuredRoute path="/about" component={AboutUs} />
+          <SecuredRoute path="/stockCreate" component={StockCreate} />
+          <SecuredRoute path="/stockEdit/:id" component={StockEdit} />
           <Route
             exact={true}
             path="/"

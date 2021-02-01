@@ -1,6 +1,12 @@
-import React from "react";
+import { React, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Formik } from "formik";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import {
   CardActions,
   Card,
@@ -14,6 +20,10 @@ import {
 } from "@material-ui/core";
 import Axios from "axios";
 import { apiUrl, server } from "./../../Constatns";
+import Alert from "@material-ui/lab/Alert";
+import loginReducer from "../../reducers/login.reducer";
+import * as loginAction from "./../../actions/login.action";
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,8 +37,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Register({ history }, props) {
+export default function Register(props) {
+  const [isError, setIsError] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
   const classes = useStyles();
+  // const dispatch = useDispatch();
+  const loginReducer = useSelector(({ loginReducer }) => loginReducer);
   function showForm({
     values,
     handleChange,
@@ -64,6 +78,10 @@ export default function Register({ history }, props) {
           autoComplete="current-password"
         />
 
+        {isError && (
+          <Alert severity="error">Error , your registration is Failed</Alert>
+        )}
+
         {/* Register Button */}
         <Button
           type="submit"
@@ -77,7 +95,7 @@ export default function Register({ history }, props) {
           Register
         </Button>
         <Button
-          onClick={() => history.goBack()}
+          onClick={() => props.history.goBack()}
           fullWidth
           size="small"
           color="primary"
@@ -88,35 +106,77 @@ export default function Register({ history }, props) {
     );
   }
   return (
-    <Card className={classes.root}>
-      <CardMedia
-        className={classes.media}
-        image={`${process.env.PUBLIC_URL}/images/authen_header.jpg`}
-        title="Contemplative Reptile"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="h2">
-          Register
-        </Typography>
+    <div>
+      <Card className={classes.root}>
+        <CardMedia
+          className={classes.media}
+          image={`${process.env.PUBLIC_URL}/images/authen_header.jpg`}
+          title="Contemplative Reptile"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="h2">
+            Register
+          </Typography>
 
-        <Formik
-          initialValues={{ username: "", password: "" }}
-          onSubmit={(values, { setSubmitting }) => {
-            // alert(JSON.stringify(values)) Debugmode
-            setSubmitting(true);
-            Axios.post("http://localhost:8085/api/v2/authen/register", values)
-              .then((result) => {
-                setSubmitting(false);
-                alert(JSON.stringify(result.data));
-              })
-              .catch((error) => {
-                alert(JSON.stringify(error));
-              });
-          }}
-        >
-          {(props) => showForm(props)}
-        </Formik>
-      </CardContent>
-    </Card>
+          <Formik
+            initialValues={{ username: "", password: "" }}
+            onSubmit={(values, { setSubmitting }) => {
+              // alert(JSON.stringify(values)) Debugmode
+              setSubmitting(true);
+              Axios.post("http://localhost:8085/api/v2/authen/register", values)
+                .then((result) => {
+                  setSubmitting(false);
+                  // alert(JSON.stringify(result.data));
+                  const { data } = result;
+                  debugger;
+                  if (data.result == "ok") {
+                    // dispatch(loginAction.setSuccess());
+                    setShowDialog(true);
+                  } else {
+                    // dispatch(
+                    //   loginAction.hasError(
+                    //     "Error , your information is not correct"
+                    //   )
+                    // );
+
+                    setIsError(true);
+                  }
+                })
+                .catch((error) => {
+                  setIsError(true);
+                });
+            }}
+          >
+            {(props) => showForm(props)}
+          </Formik>
+        </CardContent>
+      </Card>
+
+      <Dialog
+        open={showDialog}
+        keepMounted
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <DialogTitle id="alert-dialog-slide-title">
+          <CheckCircleIcon /> {"SUCCESS"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            Your Registration is successfull
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => {
+              props.history.push("/login");
+            }}
+            color="primary"
+          >
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 }
