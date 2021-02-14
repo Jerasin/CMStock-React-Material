@@ -4,7 +4,11 @@ const user = require("./../models/user");
 const bcrypt = require("bcryptjs");
 const constants = require("./../constant");
 
-const formidable = require("formidable");
+// ๋Jwt
+const expressJwt = require("express-jwt");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+dotenv.config();
 
 // Login
 router.post("/login", async (req, res) => {
@@ -13,8 +17,14 @@ router.post("/login", async (req, res) => {
   let result = await user.findOne({ where: { username: username } });
   if (result != null) {
     if (bcrypt.compareSync(password, result.password)) {
+      // generate a token with user id and secret
+      const token = jwt.sign(
+        { id: result.id, username: result.username },
+        process.env.JWT_SECRET
+      );
       res.json({
         result: constants.kResultOk,
+        token,
         message: JSON.stringify(result),
       });
     } else {
@@ -23,8 +33,11 @@ router.post("/login", async (req, res) => {
   } else {
     res.json({ result: constants.kResultNok, message: "Incorrect username" });
   }
+
+  // persist the token as 't' in cookie with expiry date
 });
 
+// Register
 router.post("/register", async (req, res) => {
   try {
     req.body.password = bcrypt.hashSync(req.body.password, 8);
