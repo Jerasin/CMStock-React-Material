@@ -1,8 +1,16 @@
+// Login Log
 export const LOGIN_FETCHING = "LOGIN_FETCHING";
 export const LOGIN_FAILED = "LOGIN_FAILED";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGOUT = "LOGOUT";
 
+// User Log
+export const USER_FETCHING = "USER_FETCHING";
+export const USER_FAILED = "USER_FAILED";
+export const USER_SUCCESS = "USER_SUCCESS";
+export const USER_UPDATED = "USER_UPDATED";
+
+// Path Url
 export const apiUrl = "http://localhost:8085/api/v2";
 export const imageUrl = "http://localhost:8085";
 
@@ -16,6 +24,7 @@ export const LOGIN_STATUS = "LOGIN_STATUS";
 export const server = {
   LOGIN_URL: "authen/login",
   REGISTER_URL: "authen/register",
+  USERS_URL: "authen/user",
   PRODUCT_URL: "stock/product",
   TRANSACTION_URL: "transaction",
   LOGIN_PASSED: "yes",

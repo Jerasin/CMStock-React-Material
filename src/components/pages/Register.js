@@ -41,7 +41,7 @@ export default function Register(props) {
   const [isError, setIsError] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const classes = useStyles();
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const loginReducer = useSelector(({ loginReducer }) => loginReducer);
   function showForm({
     values,
@@ -61,7 +61,7 @@ export default function Register(props) {
           onChange={handleChange}
           id="username"
           label="Username"
-          autoComplete="email"
+          autoComplete="username"
           autoFocus
         />
         <TextField
@@ -76,6 +76,20 @@ export default function Register(props) {
           type="password"
           id="password"
           autoComplete="current-password"
+        />
+
+        <TextField
+          variant="outlined"
+          margin="normal"
+          required
+          fullWidth
+          value={values.email}
+          onChange={handleChange}
+          name="email"
+          label="Email"
+          type="email"
+          id="email"
+          autoComplete="current-email"
         />
 
         {isError && (
@@ -119,18 +133,18 @@ export default function Register(props) {
           </Typography>
 
           <Formik
-            initialValues={{ username: "", password: "" }}
+            initialValues={{ username: "", password: "", email: "" }}
             onSubmit={(values, { setSubmitting }) => {
               // alert(JSON.stringify(values)) Debugmode
               setSubmitting(true);
               Axios.post("http://localhost:8085/api/v2/authen/register", values)
                 .then((result) => {
                   setSubmitting(false);
-                  // alert(JSON.stringify(result.data));
+                  alert(JSON.stringify(result.data));
                   const { data } = result;
                   debugger;
                   if (data.result == "ok") {
-                    // dispatch(loginAction.setSuccess());
+                    dispatch(loginAction.setSuccess());
                     setShowDialog(true);
                   } else {
                     // dispatch(

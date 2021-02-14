@@ -20,15 +20,15 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 
 // Redux-Hook
 import { useDispatch, useSelector } from "react-redux";
-import * as stockAction from "./../../actions/stock.action";
+import * as userAction from "./../../actions/user.action";
 
 // Constatns
 import { imageUrl } from "./../../Constatns";
 
-function Stock(props) {
+function User(props) {
   // Call Redux Action
   const dispatch = useDispatch();
-  const stockReducer = useSelector(({ stockReducer }) => stockReducer);
+  const userReducer = useSelector(({ userReducer }) => userReducer);
 
   // useState
   const [open, setOpen] = useState(false);
@@ -63,10 +63,6 @@ function Stock(props) {
                 alignItems: "center",
               }}
             >
-              <img
-                src={`${imageUrl}/images/${selectedItem.image}`}
-                style={{ width: 50, height: 50, borderRadius: "5%" }}
-              />
               <span style={{ marginLeft: 20 }}>{selectedItem.name}</span>
             </div>
           </DialogContentText>
@@ -77,7 +73,7 @@ function Stock(props) {
           </Button>
           <Button
             onClick={() => {
-              dispatch(stockAction.deleteProduct(selectedItem.id));
+              dispatch(userAction.deleteUser(selectedItem.id));
               handleClose();
             }}
             color="secondary"
@@ -101,68 +97,39 @@ function Stock(props) {
 
   // useEffect
   useEffect(() => {
-    dispatch(stockAction.getProducts());
+    dispatch(userAction.getUser());
   }, []);
 
   // Loop Fetch DataTable
   const columns = [
     {
-      title: "Product Code",
-      render: (item) => (
-        <Typography variant="body1">{item.product_code}</Typography>
-      ),
-    },
-    {
-      title: "Image",
-      cellStyle: { padding: 0 },
-      render: (item) => (
-        <img
-          src={`${imageUrl}/images/${item.image}?dummy=${Math.random()}`}
-          style={{ width: 70, height: 70, borderRadius: "5%" }}
-        />
-      ),
-    },
-    {
-      title: "Name",
-      cellStyle: { minWidth: 500 },
-      render: (item) => <Typography variant="body1">{item.name}</Typography>,
+      title: "Id",
+      //   cellStyle: { minWidth: 10 },
+      render: (item) => <Typography variant="body1">{item.id}</Typography>,
     },
 
     {
-      title: "Price",
+      title: "Username",
+      cellStyle: { minWidth: 100 },
       render: (item) => (
-        <Typography variant="body1">
-          <NumberFormat
-            value={item.price}
-            displayType={"text"}
-            thousandSeparator={true}
-            decimalScale={2}
-            fixedDecimalScale={true}
-            prefix={"฿"}
-          />
-        </Typography>
+        <Typography variant="body1">{item.username}</Typography>
       ),
     },
+
     {
-      title: "Stock",
-      render: (item) => (
-        <Typography variant="body1">
-          <NumberFormat
-            value={item.stock}
-            displayType={"text"}
-            thousandSeparator={true}
-            decimalScale={0}
-            fixedDecimalScale={true}
-            suffix={" pcs"}
-          />
-        </Typography>
-      ),
-    },
-    {
-      title: "Updated",
+      title: "Create",
       render: (item) => (
         <Typography>
-          <Moment format="DD/MM/YYYY">{item.updatedAt}</Moment>
+          <Moment format="DD/MM/YYYY">{item.createAt}</Moment>
+        </Typography>
+      ),
+    },
+
+    {
+      title: "Update",
+      render: (item) => (
+        <Typography>
+          <Moment format="DD/MM/YYYY">{item.updateAt}</Moment>
         </Typography>
       ),
     },
@@ -174,7 +141,7 @@ function Stock(props) {
       iconProps: { color: "primary" },
       tooltip: "Edit",
       onClick: (event, rowData) => {
-        props.history.push("/stockEdit/" + rowData.id);
+        props.history.push("/userEdit/" + rowData.id);
       },
     },
     {
@@ -191,11 +158,11 @@ function Stock(props) {
     <div className={classes.root}>
       <MaterialTable
         columns={columns}
-        data={stockReducer.result ? stockReducer.result : []}
-        title="Stock"
+        data={userReducer.result ? userReducer.result : []}
+        title="User"
         actions={actions}
         options={{
-          pageSize: 5,
+          pageSize: 8,
           search: true,
           rowStyle: (rowData, index) => ({
             backgroundColor: index % 2 == 0 ? "#f8faf9" : "#fff",
@@ -211,7 +178,7 @@ function Stock(props) {
                   variant="contained"
                   color="primary"
                   component={Link}
-                  to="/stockCreate"
+                  to="/userCreate"
                 >
                   Create
                 </Button>
@@ -234,4 +201,4 @@ function Stock(props) {
   );
 }
 
-export default Stock;
+export default User;

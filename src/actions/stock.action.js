@@ -26,6 +26,21 @@ export const getProducts = () => {
   };
 };
 
+export const updateProduct = (formData, history) => {
+  return async (dispatch) => {
+    await httpClient.put(server.PRODUCT_URL, formData);
+    history.goBack();
+  };
+};
+
+export const deleteProduct = (id) => {
+  return async (dispatch) => {
+    debugger;
+    await httpClient.delete(`/stock/product/${id}`);
+    await doGetProducts(dispatch);
+  };
+};
+
 const doGetProducts = async (dispatch) => {
   try {
     let result = await httpClient.get(server.PRODUCT_URL);
@@ -39,5 +54,18 @@ export const addProduct = (formData, history) => {
   return async (dispatch) => {
     await httpClient.post(server.PRODUCT_URL, formData);
     history.goBack();
+  };
+};
+
+export const getProductById = (id) => {
+  return async (dispatch) => {
+    try {
+      dispatch(setStateToFetch());
+      let result = await httpClient.get(`${server.PRODUCT_URL}/${id}`);
+      dispatch(setStateToSuccess(result.data));
+    } catch (error) {
+      alert(JSON.stringify(error));
+      dispatch(setStateToFailed());
+    }
   };
 };

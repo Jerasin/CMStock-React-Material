@@ -60,10 +60,10 @@ const Header = (props) => {
           [classes.appBarShift]: props.open,
         })}
       >
-        <Toolbar>
+        <Toolbar style={{ backgroundColor: "#FF5733" }}>
           <IconButton
             edge="start"
-            className={classes.menuButton}
+            className={clsx(classes.menuButton, props.open && classes.hide)}
             color="inherit"
             aria-label="menu"
             onClick={props.handleDrawerOpen}
@@ -71,7 +71,7 @@ const Header = (props) => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            News
+            OwlDev
           </Typography>
           <Button
             variant="outlined"

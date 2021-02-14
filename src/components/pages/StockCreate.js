@@ -58,11 +58,22 @@ export default function StockCreate(props) {
               className={classes.field}
               fullWidth
               component={TextField}
+              name="product_code"
+              type="number"
+              label="Product Code"
+            />
+            <br />
+
+            <Field
+              className={classes.field}
+              fullWidth
+              component={TextField}
               name="name"
               type="text"
               label="Name"
             />
             <br />
+
             <Field
               className={classes.field}
               fullWidth
@@ -142,6 +153,8 @@ export default function StockCreate(props) {
         <Formik
           validate={(values) => {
             let errors = {};
+            if (!values.product_code)
+              errors.product_code = "Enter Product code";
             if (!values.name) errors.name = "Enter name";
             if (!values.stock) errors.stock = "Enter stock";
             if (!values.price) errors.price = "Enter price";
@@ -150,6 +163,7 @@ export default function StockCreate(props) {
           initialValues={{ name: "", stock: 0, price: 0 }}
           onSubmit={(values, { setSubmitting }) => {
             let formData = new FormData();
+            formData.append("product_code", values.product_code);
             formData.append("name", values.name);
             formData.append("price", values.price);
             formData.append("stock", values.stock);

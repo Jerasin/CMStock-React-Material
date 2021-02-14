@@ -5,6 +5,10 @@ const product = sequelize.define(
   "product",
   {
     // attributes
+    product_code: {
+      type: Sequelize.NUMBER,
+    },
+
     name: {
       type: Sequelize.STRING,
       allowNull: false,
@@ -29,7 +33,7 @@ const product = sequelize.define(
 );
 
 (async () => {
-  await user.sync({ force: false });
+  await product.sync({ force: false });
 })();
 
 module.exports = product;

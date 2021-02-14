@@ -18,6 +18,9 @@ import StockCreate from "./components/pages/StockCreate";
 import StockEdit from "./components/pages/StockEdit";
 import Report from "./components/pages/Report";
 import AboutUs from "./components/pages/AboutUs";
+import User from "./components/pages/User";
+import UserCreate from "./components/pages/UserCreate";
+import UserEdit from "./components/pages/UserEdit";
 import {
   BrowserRouter as Router,
   Route,
@@ -143,6 +146,9 @@ function App() {
             <SecuredRoute path="/about" component={AboutUs} />
             <SecuredRoute path="/stockCreate" component={StockCreate} />
             <SecuredRoute path="/stockEdit/:id" component={StockEdit} />
+            <SecuredRoute path="/user" component={User} />
+            <SecuredRoute path="/userCreate" component={UserCreate} />
+            <SecuredRoute path="/userEdit/:id" component={UserEdit} />
             <Route
               exact={true}
               path="/"

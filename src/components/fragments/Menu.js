@@ -19,6 +19,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import {
   Layers as LayersIcon,
   BarChart as BarChartIcon,
@@ -137,7 +138,7 @@ function Menu({ handleDrawerOpen, handleDrawerClose }) {
             <ListItemIcon>
               <LayersIcon />
             </ListItemIcon>
-            <ListItemText primary="stock" />
+            <ListItemText primary="Stock" />
           </ListItem>
 
           {/* Report */}
@@ -163,9 +164,23 @@ function Menu({ handleDrawerOpen, handleDrawerClose }) {
             activeClassName={classes.isActive}
           >
             <ListItemIcon>
-              <PersonIcon />
+              <AccountBoxIcon />
             </ListItemIcon>
             <ListItemText primary="About" />
+          </ListItem>
+
+          {/* AboutUS */}
+          <ListItem
+            component={NavLink}
+            to="/user"
+            button
+            key="user"
+            activeClassName={classes.isActive}
+          >
+            <ListItemIcon>
+              <PersonIcon />
+            </ListItemIcon>
+            <ListItemText primary="User" />
           </ListItem>
         </List>
       </Drawer>

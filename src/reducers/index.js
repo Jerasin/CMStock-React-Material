@@ -4,6 +4,7 @@ import registerReducer from "./register.reducer";
 import stockReducer from "./stock.reducer";
 import shopReducer from "./shop.reducer";
 import transactionReducer from "./transaction.reducer";
+import userReducer from "./user.reducer";
 
 export default combineReducers({
   loginReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   stockReducer,
   shopReducer,
   transactionReducer,
+  userReducer,
 });
