@@ -39,12 +39,10 @@ export const login = ({ username, password, history }) => {
       password,
     });
     if (result.data.token) {
+      localStorage.setItem(LOGIN_STATUS, true);
       dispatch(setStateToSuccess(result.data.token));
-      console.log(result.data.token);
-      localStorage.setItem(LOGIN_STATUS, result.data.token);
       history.push("/stock");
     } else {
-      localStorage.setItem(LOGIN_STATUS, "nok");
       dispatch(setStateToFailed(result.data.message));
     }
   };
@@ -53,7 +51,7 @@ export const login = ({ username, password, history }) => {
 export const isLoggedIn = () => {
   const loginStatus = localStorage.getItem(LOGIN_STATUS);
   if (loginStatus) {
-    return loginStatus;
+    return loginStatus == loginStatus;
   }
 };
 
@@ -67,7 +65,7 @@ export const logout = ({ history }) => {
 
 export const setSuccess = () => {
   return (dispatch) => {
-    dispatch(setStateToSuccess("ok"));
+    dispatch(setStateToSuccess(LOGIN_STATUS));
   };
 };
 
@@ -75,7 +73,7 @@ export const reLogin = () => {
   return (dispatch) => {
     const loginStatus = localStorage.getItem(LOGIN_STATUS);
     if (loginStatus) {
-      dispatch(setStateToSuccess({}));
+      dispatch(setStateToSuccess(loginStatus));
     }
   };
 };

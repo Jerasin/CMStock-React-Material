@@ -44,7 +44,7 @@ export default function UserEdit(props) {
   useEffect(() => {
     let id = props.match.params.id;
     dispatch(userAction.getUserById(id));
-  }, []);
+  }, [dispatch, props.match.params.id]);
 
   const showForm = ({ values, setFieldValue, isValid, dirty }) => {
     return (

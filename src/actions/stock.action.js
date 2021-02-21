@@ -26,6 +26,38 @@ export const getProducts = () => {
   };
 };
 
+export const getStocks = () => {
+  return (dispatch) => {
+    dispatch(setStateToFetch());
+    doGetStocks(dispatch);
+  };
+};
+
+const doGetStocks = async (dispatch) => {
+  try {
+    let result = await httpClient.get(server.STOCK_URL);
+    dispatch(setStateToSuccess(result.data));
+  } catch (err) {
+    dispatch(setStateToFailed());
+  }
+};
+
+export const getBorrows = () => {
+  return (dispatch) => {
+    dispatch(setStateToFetch());
+    doGetBorrows(dispatch);
+  };
+};
+
+const doGetBorrows = async (dispatch) => {
+  try {
+    let result = await httpClient.get(server.BORROW_URL);
+    dispatch(setStateToSuccess(result.data));
+  } catch (err) {
+    dispatch(setStateToFailed());
+  }
+};
+
 export const updateProduct = (formData, history) => {
   return async (dispatch) => {
     await httpClient.put(server.PRODUCT_URL, formData);

@@ -34,7 +34,8 @@ import { useSelector, useDispatch } from "react-redux";
 import * as loginAction from "./../src/actions/login.action";
 
 import clsx from "clsx";
-
+import Borrow from "./components/pages/Borrow";
+import { LOGIN_STATUS } from "./Constatns";
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
@@ -119,16 +120,20 @@ function App() {
 
   return (
     <Router>
-      {loginReducer.result && !loginReducer.error && (
-        <Header handleDrawerOpen={handleDrawerOpen} open={openDrawer} />
-      )}
+      {loginReducer.result &&
+        !loginReducer.error &&
+        localStorage.getItem(LOGIN_STATUS) && (
+          <Header handleDrawerOpen={handleDrawerOpen} open={openDrawer} />
+        )}
 
-      {loginReducer.result && !loginReducer.error && (
-        <Menu
-          handleDrawerOpen={openDrawer}
-          handleDrawerClose={handleDrawerClose}
-        />
-      )}
+      {loginReducer.result &&
+        !loginReducer.error &&
+        localStorage.getItem(LOGIN_STATUS) && (
+          <Menu
+            handleDrawerOpen={openDrawer}
+            handleDrawerClose={handleDrawerClose}
+          />
+        )}
 
       <div className={classes.drawerHeader} />
       <main
@@ -149,6 +154,7 @@ function App() {
             <SecuredRoute path="/user" component={User} />
             <SecuredRoute path="/userCreate" component={UserCreate} />
             <SecuredRoute path="/userEdit/:id" component={UserEdit} />
+            <SecuredRoute path="/borrow" component={Borrow} />
             <Route
               exact={true}
               path="/"

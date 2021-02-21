@@ -8,25 +8,54 @@ const constants = require("./../constant");
 const expressJwt = require("express-jwt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const { access } = require("fs-extra");
 dotenv.config();
+
+function veriflyJWT(req, res, next) {
+  const bearerHeader = req.headers["authorization"];
+
+  if (typeof bearerHeader !== "undefined") {
+    const bearerToken = bearerHeader;
+    req.token = bearerToken;
+    next();
+  } else {
+    res.sendStatus(403);
+  }
+}
+
+// router.post("/isUserAuth", veriflyJWT, (req, res) => {
+//   jwt.verify(req.token, process.env.JWT_SECRET, (err, authData) => {
+//     if (err) {
+//       res.sendStatus(403);
+//     } else {
+//       res.json({
+//         message: "GGEZ",
+//         authData,
+//       });
+//     }
+//   });
+// });
 
 // Login
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
-
   let result = await user.findOne({ where: { username: username } });
   if (result != null) {
     if (bcrypt.compareSync(password, result.password)) {
       // generate a token with user id and secret
-      const token = jwt.sign(
+      jwt.sign(
         { id: result.id, username: result.username },
-        process.env.JWT_SECRET
+        process.env.JWT_SECRET,
+        { expiresIn: "60s" },
+        (err, token) => {
+          res.json({ token, authen: true });
+        }
       );
-      res.json({
-        result: constants.kResultOk,
-        token,
-        message: JSON.stringify(result),
-      });
+
+      // res.json({
+      //   authen: true,
+      //   result: result,
+      // });
     } else {
       res.json({ result: constants.kResultNok, message: "Incorrect password" });
     }
@@ -55,7 +84,7 @@ router.get("/user", async (req, res) => {
 });
 
 // Delete User
-router.delete("/user/:id", async (req, res) => {
+router.delete("/user/:id", veriflyJWT, async (req, res) => {
   try {
     const { id } = req.params;
     let result = await user.findOne({ where: { id: id } });
@@ -77,7 +106,7 @@ router.get("/user/:id", async (req, res) => {
 });
 
 // Update User
-router.put("/user", async (req, res) => {
+router.put("/user", veriflyJWT, async (req, res) => {
   try {
     req.body.password = bcrypt.hashSync(req.body.password, 8);
     let result = await user.update(req.body, { where: { id: req.body.id } });

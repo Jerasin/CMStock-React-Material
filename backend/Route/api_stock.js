@@ -16,7 +16,27 @@ const Op = Sequelize.Op;
 
 // Get Product
 router.get("/product", async (req, res) => {
-  let result = await product.findAll({ order: Sequelize.literal("id DESC") });
+  let result = await product.findAll({
+    order: Sequelize.literal("id DESC"),
+  });
+  res.json(result);
+});
+
+// Get Product in Stock
+router.get("/stocks", async (req, res) => {
+  let result = await product.findAll({
+    order: Sequelize.literal("id DESC"),
+    where: { borrow_status: "wait" },
+  });
+  res.json(result);
+});
+
+// Get Product in Borrow
+router.get("/borrows", async (req, res) => {
+  let result = await product.findAll({
+    order: Sequelize.literal("id DESC"),
+    where: { borrow_status: "done" },
+  });
   res.json(result);
 });
 
@@ -85,9 +105,8 @@ router.put("/product", async (req, res) => {
     form.parse(req, async (err, fields, files) => {
       let result = await product.update(fields, { where: { id: fields.id } });
       result = await uploadImage(files, fields);
-
       res.json({
-        result: constant.kResultOk,
+        result: constants.kResultOk,
         message: JSON.stringify(result),
       });
     });
@@ -106,9 +125,9 @@ router.delete("/product/:id", async (req, res) => {
     );
     result = await product.destroy({ where: { id: id } });
 
-    res.json({ result: constant.kResultOk, message: JSON.stringify(result) });
+    res.json({ result: constants.kResultOk, message: JSON.stringify(result) });
   } catch (error) {
-    res.json({ result: constant.kResultNok, message: "Internal Error" });
+    res.json({ result: constants.kResultNok, message: "Internal Error" });
   }
 });
 

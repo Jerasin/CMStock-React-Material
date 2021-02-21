@@ -4,6 +4,7 @@ import {
   USER_FAILED,
   USER_UPDATED,
   server,
+  LOGIN_STATUS,
 } from "../Constatns";
 
 import { httpClient } from "../utils/HttpClient";
@@ -27,9 +28,12 @@ export const setStateToUpdated = (payload) => ({
 });
 
 export const getUser = () => {
+  const loginStatus = localStorage.getItem(LOGIN_STATUS);
   return (dispatch) => {
-    dispatch(setStateToFetch());
-    doGetUser(dispatch);
+    if (loginStatus) {
+      dispatch(setStateToFetch());
+      doGetUser(dispatch);
+    }
   };
 };
 
@@ -62,7 +66,7 @@ export const deleteUser = (id) => {
 const doGetUser = async (dispatch) => {
   try {
     let result = await httpClient.get(server.USERS_URL);
-    debugger;
+    // debugger;
     dispatch(setStateToSuccess(result.data));
   } catch (err) {
     dispatch(setStateToFailed());
@@ -70,26 +74,29 @@ const doGetUser = async (dispatch) => {
 };
 
 export const getUserById = (id) => {
-  return async (dispatch) => {
-    try {
-      dispatch(setStateToFetch());
-      let result = await httpClient.get(`${server.USERS_URL}/${id}`);
-      // let data = {
-      //   username: result.data.username,
-      //   password: " ",
-      //   level: result.data.level,
-      // };
-      result.data = {
-        ...result.data,
-        password: "",
-      };
-      dispatch(setStateToSuccess(result.data));
-      // alert(JSON.stringify(result.data));
-    } catch (error) {
-      alert(JSON.stringify(error));
-      dispatch(setStateToFailed());
-    }
-  };
+  const loginStatus = localStorage.getItem(LOGIN_STATUS);
+  if (loginStatus) {
+    return async (dispatch) => {
+      try {
+        dispatch(setStateToFetch());
+        let result = await httpClient.get(`${server.USERS_URL}/${id}`);
+        // let data = {
+        //   username: result.data.username,
+        //   password: " ",
+        //   level: result.data.level,
+        // };
+        result.data = {
+          ...result.data,
+          password: "",
+        };
+        dispatch(setStateToSuccess(result.data));
+        // alert(JSON.stringify(result.data));
+      } catch (error) {
+        alert(JSON.stringify(error));
+        dispatch(setStateToFailed());
+      }
+    };
+  }
 };
 
 export const updateUser = (values, history) => {

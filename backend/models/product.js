@@ -5,11 +5,8 @@ const product = sequelize.define(
   "product",
   {
     // attributes
-    product_code: {
-      type: Sequelize.NUMBER,
-    },
 
-    name: {
+    device_name: {
       type: Sequelize.STRING,
       allowNull: false,
     },
@@ -18,11 +15,15 @@ const product = sequelize.define(
       allowNull: false,
       defaultValue: "-",
     },
-    price: {
+    imei: {
       type: Sequelize.NUMBER,
       // allowNull default to true
     },
-    stock: {
+    borrow_status: {
+      type: Sequelize.NUMBER,
+      // allowNull default to true
+    },
+    device_status: {
       type: Sequelize.NUMBER,
       // allowNull default to true
     },

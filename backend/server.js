@@ -13,6 +13,7 @@ app.use(cors());
 
 app.use("/api/v2/authen/", require("./Route/api_authen"));
 app.use("/api/v2/stock/", require("./Route/api_stock"));
+app.use("/api/v2/document/", require("./Route/api_document"));
 
 app.listen(8085, () => {
   console.log("Backend is running..");

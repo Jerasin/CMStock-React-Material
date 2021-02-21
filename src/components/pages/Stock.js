@@ -101,17 +101,11 @@ function Stock(props) {
 
   // useEffect
   useEffect(() => {
-    dispatch(stockAction.getProducts());
+    dispatch(stockAction.getStocks());
   }, []);
 
   // Loop Fetch DataTable
   const columns = [
-    {
-      title: "Product Code",
-      render: (item) => (
-        <Typography variant="body1">{item.product_code}</Typography>
-      ),
-    },
     {
       title: "Image",
       cellStyle: { padding: 0 },
@@ -122,42 +116,66 @@ function Stock(props) {
         />
       ),
     },
+
     {
-      title: "Name",
-      cellStyle: { minWidth: 500 },
-      render: (item) => <Typography variant="body1">{item.name}</Typography>,
+      title: "Device Name",
+      cellStyle: { minWidth: 300 },
+      render: (item) => (
+        <Typography variant="body1">{item.device_name}</Typography>
+      ),
     },
 
     {
-      title: "Price",
-      render: (item) => (
-        <Typography variant="body1">
-          <NumberFormat
-            value={item.price}
-            displayType={"text"}
-            thousandSeparator={true}
-            decimalScale={2}
-            fixedDecimalScale={true}
-            prefix={"฿"}
-          />
-        </Typography>
-      ),
+      title: "IMEI",
+      cellStyle: { minWidth: 50 },
+      render: (item) => <Typography variant="body1">{item.imei}</Typography>,
     },
+
     {
-      title: "Stock",
+      title: "Borrow Status",
+      cellStyle: { minWidth: 50 },
       render: (item) => (
-        <Typography variant="body1">
-          <NumberFormat
-            value={item.stock}
-            displayType={"text"}
-            thousandSeparator={true}
-            decimalScale={0}
-            fixedDecimalScale={true}
-            suffix={" pcs"}
-          />
-        </Typography>
+        <Typography variant="body1">{item.borrow_status}</Typography>
       ),
     },
+
+    {
+      title: "Device Status",
+      cellStyle: { minWidth: 50 },
+      render: (item) => (
+        <Typography variant="body1">{item.device_status}</Typography>
+      ),
+    },
+    // {
+    //   title: "Price",
+    //   render: (item) => (
+    //     <Typography variant="body1">
+    //       <NumberFormat
+    //         value={item.price}
+    //         displayType={"text"}
+    //         thousandSeparator={true}
+    //         decimalScale={2}
+    //         fixedDecimalScale={true}
+    //         prefix={"฿"}
+    //       />
+    //     </Typography>
+    //   ),
+    // },
+    // {
+    //   title: "Stock",
+    //   render: (item) => (
+    //     <Typography variant="body1">
+    //       <NumberFormat
+    //         value={item.stock}
+    //         displayType={"text"}
+    //         thousandSeparator={true}
+    //         decimalScale={0}
+    //         fixedDecimalScale={true}
+    //         suffix={" pcs"}
+    //       />
+    //     </Typography>
+    //   ),
+    // },
     {
       title: "Updated",
       render: (item) => (

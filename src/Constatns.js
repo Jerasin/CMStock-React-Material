@@ -28,6 +28,8 @@ export const server = {
   PRODUCT_URL: "stock/product",
   TRANSACTION_URL: "transaction",
   LOGIN_PASSED: "yes",
+  STOCK_URL: "stock/stocks",
+  BORROW_URL: "stock/borrows",
 };
 
 // Error Code

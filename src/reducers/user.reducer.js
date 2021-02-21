@@ -16,7 +16,7 @@ export default (state = initialState, { type, payload }) => {
     case USER_SUCCESS:
       return { ...state, result: payload, isFetching: false, isError: false };
 
-    case USER_SUCCESS:
+    case USER_UPDATED:
       return { ...state, result: payload, isFetching: false, isError: false };
 
     case USER_FAILED:

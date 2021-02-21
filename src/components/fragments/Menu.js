@@ -141,6 +141,20 @@ function Menu({ handleDrawerOpen, handleDrawerClose }) {
             <ListItemText primary="Stock" />
           </ListItem>
 
+          {/* Borrow */}
+          <ListItem
+            component={NavLink}
+            to="/borrow"
+            button
+            key="borrow"
+            activeClassName={classes.isActive}
+          >
+            <ListItemIcon>
+              <LayersIcon />
+            </ListItemIcon>
+            <ListItemText primary="Borrow" />
+          </ListItem>
+
           {/* Report */}
           <ListItem
             component={NavLink}

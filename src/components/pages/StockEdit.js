@@ -71,27 +71,36 @@ export default function StockEdit(props) {
               className={classes.field}
               fullWidth
               component={TextField}
-              name="name"
+              name="device_name"
               type="text"
-              label="Name"
+              label="Device Name"
             />
             <br />
             <Field
               className={classes.field}
               fullWidth
               component={TextField}
-              name="price"
-              type="number"
-              label="Price"
+              name="imei"
+              type="text"
+              label="imei"
             />
 
             <Field
               className={classes.field}
               fullWidth
               component={TextField}
-              name="stock"
-              type="number"
-              label="Stock"
+              name="borrow_status"
+              type="text"
+              label="Borrow Status"
+            />
+
+            <Field
+              className={classes.field}
+              fullWidth
+              component={TextField}
+              name="device_status"
+              type="text"
+              label="Device Status"
             />
 
             <div style={{ marginTop: 20 }}>{showPreviewImage(values)}</div>
@@ -153,23 +162,32 @@ export default function StockEdit(props) {
         <Formik
           validate={(values) => {
             let errors = {};
-            if (!values.name) errors.name = "Enter name";
-            if (!values.stock) errors.stock = "Enter stock";
-            if (!values.price) errors.price = "Enter price";
+            if (!values.device_name) errors.device_name = "Enter Device name";
+            if (!values.imei) errors.imei = "Enter IMEI";
+            if (!values.borrow_status)
+              errors.borrow_status = "Enter Borrow Status";
+            if (!values.device_status)
+              errors.device_status = "Enter Device Status";
             return errors;
           }}
           enableReinitialize
           initialValues={
             stockReducer.result
               ? stockReducer.result
-              : { name: " ", price: 0, stock: 0 }
+              : {
+                  device_name: " ",
+                  imei: " ",
+                  borrow_status: " ",
+                  device_status: " ",
+                }
           }
           onSubmit={(values, { setSubmitting }) => {
             let formData = new FormData();
             formData.append("id", values.id);
-            formData.append("name", values.name);
-            formData.append("price", values.price);
-            formData.append("stock", values.stock);
+            formData.append("device_name", values.device_name);
+            formData.append("imei", values.imei);
+            formData.append("borrow_status", values.borrow_status);
+            formData.append("device_status", values.device_status);
             if (values.file) {
               formData.append("image", values.file);
             }

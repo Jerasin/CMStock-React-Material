@@ -58,19 +58,9 @@ export default function StockCreate(props) {
               className={classes.field}
               fullWidth
               component={TextField}
-              name="product_code"
-              type="number"
-              label="Product Code"
-            />
-            <br />
-
-            <Field
-              className={classes.field}
-              fullWidth
-              component={TextField}
-              name="name"
+              name="device_name"
               type="text"
-              label="Name"
+              label="Device Name"
             />
             <br />
 
@@ -78,18 +68,28 @@ export default function StockCreate(props) {
               className={classes.field}
               fullWidth
               component={TextField}
-              name="price"
-              type="number"
-              label="Price"
+              name="imei"
+              type="text"
+              label="IMEI"
+            />
+            <br />
+
+            <Field
+              className={classes.field}
+              fullWidth
+              component={TextField}
+              name="borrow_status"
+              type="textr"
+              label="Borrow Status"
             />
 
             <Field
               className={classes.field}
               fullWidth
               component={TextField}
-              name="stock"
-              type="number"
-              label="Stock"
+              name="device_status"
+              type="text"
+              label="Device Status"
             />
 
             <div>{showPreviewImage(values)}</div>
@@ -153,25 +153,30 @@ export default function StockCreate(props) {
         <Formik
           validate={(values) => {
             let errors = {};
-            if (!values.product_code)
-              errors.product_code = "Enter Product code";
-            if (!values.name) errors.name = "Enter name";
-            if (!values.stock) errors.stock = "Enter stock";
-            if (!values.price) errors.price = "Enter price";
+            if (!values.device_name) errors.device_name = "Enter Device Name";
+            if (!values.imei) errors.imei = "Enter IMEI";
+            if (!values.borrow_status)
+              errors.borrow_status = "Enter Borrow Status";
+            if (!values.device_status)
+              errors.device_status = "Enter Device Status";
             return errors;
           }}
-          initialValues={{ name: "", stock: 0, price: 0 }}
+          initialValues={{
+            device_name: "",
+            imei: "",
+            borrow_status: "",
+            device_status: "",
+          }}
           onSubmit={(values, { setSubmitting }) => {
             let formData = new FormData();
-            formData.append("product_code", values.product_code);
-            formData.append("name", values.name);
-            formData.append("price", values.price);
-            formData.append("stock", values.stock);
+            formData.append("device_name", values.device_name);
+            formData.append("imei", values.imei);
+            formData.append("borrow_status", values.borrow_status);
+            formData.append("device_status", values.device_status);
             formData.append("image", values.file);
 
             dispatch(stockAction.addProduct(formData, props.history));
             // alert(JSON.stringify(values));
-            alert(JSON.stringify(props.history));
             setSubmitting(false);
           }}
         >

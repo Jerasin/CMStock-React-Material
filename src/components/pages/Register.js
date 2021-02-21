@@ -135,12 +135,10 @@ export default function Register(props) {
           <Formik
             initialValues={{ username: "", password: "", email: "" }}
             onSubmit={(values, { setSubmitting }) => {
-              // alert(JSON.stringify(values)) Debugmode
               setSubmitting(true);
               Axios.post("http://localhost:8085/api/v2/authen/register", values)
                 .then((result) => {
                   setSubmitting(false);
-                  alert(JSON.stringify(result.data));
                   const { data } = result;
                   debugger;
                   if (data.result == "ok") {
