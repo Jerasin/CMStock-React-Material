@@ -136,7 +136,10 @@ export default function Register(props) {
             initialValues={{ username: "", password: "", email: "" }}
             onSubmit={(values, { setSubmitting }) => {
               setSubmitting(true);
-              Axios.post("http://localhost:8085/api/v2/authen/register", values)
+              Axios.post(
+                "http://191.101.38.12:8085/api/v2/authen/register",
+                values
+              )
                 .then((result) => {
                   setSubmitting(false);
                   const { data } = result;

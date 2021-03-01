@@ -11,8 +11,8 @@ export const USER_SUCCESS = "USER_SUCCESS";
 export const USER_UPDATED = "USER_UPDATED";
 
 // Path Url
-export const apiUrl = "http://localhost:8085/api/v2";
-export const imageUrl = "http://localhost:8085";
+export const apiUrl = "http://191.101.38.12:8085/api/v2";
+export const imageUrl = "http://191.101.38.12:8085";
 
 export const YES = "YES";
 export const NO = "NO";

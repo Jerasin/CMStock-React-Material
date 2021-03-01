@@ -33,6 +33,11 @@ const useStyles = makeStyles((theme) => ({
   card: {
     padding: 20,
   },
+  dropdown: {
+    marginTop: 16,
+    width: "10%",
+    height: "30%",
+  },
 }));
 
 export default function StockEdit(props) {
@@ -85,23 +90,45 @@ export default function StockEdit(props) {
               label="imei"
             />
 
-            <Field
+            {/* <Field
               className={classes.field}
               fullWidth
               component={TextField}
               name="borrow_status"
               type="text"
               label="Borrow Status"
-            />
+            /> */}
 
-            <Field
+            {/* <Field
               className={classes.field}
               fullWidth
               component={TextField}
               name="device_status"
               type="text"
               label="Device Status"
-            />
+            /> */}
+
+            <br />
+
+            <Field
+              as="select"
+              name="borrow_status"
+              className={classes.dropdown}
+            >
+              <option value="wait">Wait</option>
+              <option value="done">Done</option>
+            </Field>
+
+            <br />
+
+            <Field
+              as="select"
+              name="device_status"
+              className={classes.dropdown}
+            >
+              <option value="good">Good</option>
+              <option value="damage">Damge</option>
+            </Field>
 
             <div style={{ marginTop: 20 }}>{showPreviewImage(values)}</div>
 

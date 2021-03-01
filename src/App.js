@@ -119,7 +119,7 @@ function App() {
   }, []);
 
   return (
-    <Router>
+    <Router basename="/src/components/pages/Login.js">
       {loginReducer.result &&
         !loginReducer.error &&
         localStorage.getItem(LOGIN_STATUS) && (

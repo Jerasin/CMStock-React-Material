@@ -28,6 +28,11 @@ const useStyles = makeStyles((theme) => ({
   field: {
     marginTop: 16,
   },
+  dropdown: {
+    marginTop: 16,
+    width: "10%",
+    height: "30%",
+  },
   card: {
     padding: 20,
   },
@@ -36,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
 export default function StockCreate(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { handleChange, handleBlur } = props;
 
   const showPreviewImage = (values) => {
     if (values.file_obj) {
@@ -74,23 +80,45 @@ export default function StockCreate(props) {
             />
             <br />
 
-            <Field
+            {/* <Field
               className={classes.field}
               fullWidth
               component={TextField}
               name="borrow_status"
-              type="textr"
+              type="text"
               label="Borrow Status"
-            />
+            /> */}
 
-            <Field
+            {/* <Field
               className={classes.field}
               fullWidth
               component={TextField}
               name="device_status"
               type="text"
               label="Device Status"
-            />
+            /> */}
+
+            <br />
+            {/* Dropdown #1 */}
+            <Field
+              as="select"
+              name="borrow_status"
+              className={classes.dropdown}
+            >
+              <option value="wait">Wait</option>
+              <option value="done">Done</option>
+            </Field>
+
+            <br />
+            {/* Dropdown #2 */}
+            <Field
+              as="select"
+              name="device_status"
+              className={classes.dropdown}
+            >
+              <option value="good">Good</option>
+              <option value="damage">Damage</option>
+            </Field>
 
             <div>{showPreviewImage(values)}</div>
 
@@ -155,8 +183,6 @@ export default function StockCreate(props) {
             let errors = {};
             if (!values.device_name) errors.device_name = "Enter Device Name";
             if (!values.imei) errors.imei = "Enter IMEI";
-            if (!values.borrow_status)
-              errors.borrow_status = "Enter Borrow Status";
             if (!values.device_status)
               errors.device_status = "Enter Device Status";
             return errors;
@@ -164,8 +190,8 @@ export default function StockCreate(props) {
           initialValues={{
             device_name: "",
             imei: "",
-            borrow_status: "",
-            device_status: "",
+            device_status: "good",
+            borrow_status: "wait",
           }}
           onSubmit={(values, { setSubmitting }) => {
             let formData = new FormData();
@@ -176,7 +202,10 @@ export default function StockCreate(props) {
             formData.append("image", values.file);
 
             dispatch(stockAction.addProduct(formData, props.history));
+
+            // #Debug
             // alert(JSON.stringify(values));
+
             setSubmitting(false);
           }}
         >

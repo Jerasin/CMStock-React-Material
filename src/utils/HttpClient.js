@@ -22,7 +22,7 @@ axios.interceptors.response.use(
     return response;
   },
   (error) => {
-    debugger;
+    // debugger;
     console.log(JSON.stringify(error, undefined, 2));
     if (axios.isCancel(error)) {
       return Promise.reject(error);
